@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
-import {UnauthorizedSender} from "src/Errors.sol";
+import {UnauthorizedSender} from "bridge/Errors.sol";
 
 abstract contract AbstractHandler {
     address public immutable messageCenter;

@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
-import {IMessageCenter} from "src/interfaces/IMessageCenter.sol";
-import {AbstractHandler} from "src/handlers/AbstractHandler.sol";
-import {UnauthorizedSender, NoHandlerForMessageType} from "src/Errors.sol";
+import {IMessageCenter} from "bridge/interfaces/IMessageCenter.sol";
+import {AbstractHandler} from "bridge/handlers/AbstractHandler.sol";
+import {UnauthorizedSender, NoHandlerForMessageType} from "bridge/Errors.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
 struct OutgoingMessage {

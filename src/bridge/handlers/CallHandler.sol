@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
-import {AbstractHandler} from "src/handlers/AbstractHandler.sol";
+import {AbstractHandler} from "bridge/handlers/AbstractHandler.sol";
+import {CallFailed, UnauthorizedSender} from "bridge/Errors.sol";
 import {Clones} from "@openzeppelin/contracts/proxy/Clones.sol";
-import {CallFailed, UnauthorizedSender} from "src/Errors.sol";
 
 struct CallHandlerIncomingMessage {
     address sender;
