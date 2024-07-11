@@ -22,8 +22,9 @@ contract TokenTest is Test {
         token.mint(address(this), 1e18);
     }
 
-    function testOnlyOwner() public {
-        vm.startPrank(address(11));
+    function testOnlyOwner(address owner) public {
+        vm.assume(owner != address(this));
+        vm.startPrank(owner);
         vm.expectRevert();
         token.setMinter(address(this));
     }
