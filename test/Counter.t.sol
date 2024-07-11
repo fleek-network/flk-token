@@ -2,23 +2,29 @@
 pragma solidity ^0.8.13;
 
 import {Test, console} from "forge-std/Test.sol";
-import {Counter} from "../src/Counter.sol";
+import {FLKToken} from "token/FLKToken.sol";
 
-contract CounterTest is Test {
-    Counter public counter;
+contract TokenTest is Test {
+    FLKToken public token;
 
     function setUp() public {
-        counter = new Counter();
-        counter.setNumber(0);
+        token = new FLKToken(address(this), "FLK Token", "FLK", 1e18);
     }
 
-    function test_Increment() public {
-        counter.increment();
-        assertEq(counter.number(), 1);
+    function testMint() public {
+        token.setBridgeHandler(address(this));
+        token.mint(address(this), 1e18);
+        assertEq(token.balanceOf(address(this)), 2e18);
     }
 
-    function testFuzz_SetNumber(uint256 x) public {
-        counter.setNumber(x);
-        assertEq(counter.number(), x);
+    function testMintOnlyBridgeHandler() public {
+        vm.expectRevert();
+        token.mint(address(this), 1e18);
+    }
+
+    function testOnlyOwner() public {
+        vm.startPrank(address(11));
+        vm.expectRevert();
+        token.setBridgeHandler(address(this));
     }
 }

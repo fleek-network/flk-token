@@ -3,6 +3,7 @@ pragma solidity ^0.8.13;
 
 import {Script, console} from "forge-std/Script.sol";
 import {FLKToken} from "token/FLKtoken.sol";
+import {OWNER, STARTING_SUPPLY, NAME, SYMBOL} from "token/Config.sol";
 
 contract CounterScript is Script {
     function setUp() public {}
@@ -10,6 +11,6 @@ contract CounterScript is Script {
     function run() public {
         vm.broadcast();
 
-        new FLKToken(address(this));
+        new FLKToken(OWNER, NAME, SYMBOL, STARTING_SUPPLY);
     }
 }
