@@ -8,11 +8,24 @@ import {OWNER, STARTING_SUPPLY, NAME, SYMBOL} from "src/token/Config.sol";
 
 /// @notice The FLK token
 contract FLKToken is ERC20Permit, Ownable {
-constructor() ERC20Permit(NAME) ERC20(NAME, SYMBOL) Ownable(OWNER) {
+    error OnlyBridgeHandler();
+
+    address public bridgeHandler;
+
+    modifier onlyBridgeHandler() {
+        if (msg.sender != bridgeHandler) revert OnlyBridgeHandler();
+        _;
+    }
+
+    constructor() ERC20Permit(NAME) ERC20(NAME, SYMBOL) Ownable(OWNER) {
         _mint(OWNER, STARTING_SUPPLY);
     }
 
-    function mint(address to, uint256 amount) external onlyOwner {
+    function mint(address to, uint256 amount) external onlyBridgeHandler {
         _mint(to, amount);
+    }
+
+    function setBridgeHandler(address handler) external onlyOwner {
+        bridgeHandler = handler;
     }
 }
