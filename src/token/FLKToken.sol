@@ -7,12 +7,12 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
 /// @notice The FLK token
 contract FLKToken is ERC20Permit, Ownable {
-    error OnlyBridgeHandler();
+    error InvalidSender();
 
-    address public bridgeHandler;
+    mapping(address => bool) isMinter;
 
-    modifier onlyBridgeHandler() {
-        if (msg.sender != bridgeHandler) revert OnlyBridgeHandler();
+    modifier onlyMinter() {
+        if (!isMinter[msg.sender]) revert InvalidSender();
         _;
     }
 
@@ -25,11 +25,11 @@ contract FLKToken is ERC20Permit, Ownable {
         _mint(owner, startingSupply);
     }
 
-    function mint(address to, uint256 amount) external onlyBridgeHandler {
+    function mint(address to, uint256 amount) external onlyMinter {
         _mint(to, amount);
     }
 
-    function setBridgeHandler(address handler) external onlyOwner {
-        bridgeHandler = handler;
+    function setMinter(address minter) external onlyOwner {
+        isMinter[minter] = true;
     }
 }

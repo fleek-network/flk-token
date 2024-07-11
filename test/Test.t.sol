@@ -12,7 +12,7 @@ contract TokenTest is Test {
     }
 
     function testMint() public {
-        token.setBridgeHandler(address(this));
+        token.setMinter(address(this));
         token.mint(address(this), 1e18);
         assertEq(token.balanceOf(address(this)), 2e18);
     }
@@ -25,6 +25,6 @@ contract TokenTest is Test {
     function testOnlyOwner() public {
         vm.startPrank(address(11));
         vm.expectRevert();
-        token.setBridgeHandler(address(this));
+        token.setMinter(address(this));
     }
 }
