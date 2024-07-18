@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
-import {ERC20} from "solmate/tokens/ERC20.sol";
-import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import {ERC20} from "../../lib/solmate/src/tokens/ERC20.sol";
+import {Ownable} from "../../lib/openzeppelin-contracts/contracts/access/Ownable.sol";
+import {OWNER, STARTING_SUPPLY, NAME, SYMBOL} from "./Config.sol";
 
 /// @notice The FLK token
 contract FLKToken is ERC20, Ownable {
@@ -15,13 +16,8 @@ contract FLKToken is ERC20, Ownable {
         _;
     }
 
-    constructor(
-        address _owner,
-        string memory _name,
-        string memory _symbol,
-        uint256 startingSupply
-    ) ERC20(_name, _symbol, 18) Ownable(_owner) {
-        _mint(_owner, startingSupply);
+    constructor() ERC20(NAME, SYMBOL, 18) Ownable(OWNER) {
+        _mint(OWNER, STARTING_SUPPLY);
     }
 
     function mint(address to, uint256 amount) external onlyMinter {
